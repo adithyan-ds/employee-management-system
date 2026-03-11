@@ -4,19 +4,27 @@ import dotenv from "dotenv";
 import cors from "cors";
 import employeeRouter from "./routes/empRoutes.js";
 
-
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
 
-app.use(cors());
+const corsOptions = {
+  origin: [
+    'https://employee-management-system-gamma-five.vercel.app', 
+    'http://localhost:5173'
+  ],
+  optionsSuccessStatus: 200
+};
+
+
+app.use(cors(corsOptions));
+
+
 app.use(express.json());
 
-
 app.use("/employees", employeeRouter);
-
 
 if (!process.env.MONGO_URI) {
   console.error("🚨 FATAL ERROR: MONGO_URI is missing. Check your .env file.");
